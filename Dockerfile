@@ -13,23 +13,24 @@ RUN echo "deb http://apt.postgresql.org/pub/repos/apt/ precise-pgdg main" > /etc
 RUN locale-gen en_US.UTF-8 && update-locale
 RUN echo 'LANG="en_US.UTF-8"' > /etc/default/locale
 
-# Install ``python-software-properties``, ``software-properties-common`` and PostgreSQL 9.3
-#  There are some warnings (in red) that show up during the build. You can hide
-#  them by prefixing each apt-get statement with DEBIAN_FRONTEND=noninteractive
-#
-# WARNING You must explicitly provide /var/log/postgresql and /var/lib/postgresql/9.3/<clustername>
-#
-RUN apt-get update && apt-get -y -q install python-software-properties software-properties-common \
-                                            postgresql-9.3 postgresql-client-9.3 postgresql-contrib-9.3 && \
-                                            rm -rf /var/log/postgresql && rm -rf /var/lib/postgresql/9.3/main && \
-                                            rm -rf /etc/postgresql/9.3
+RUN apt-get update && apt-get -y -q install postgresql-9.3 postgresql-client-9.3 postgresql-contrib-9.3
+
+ADD source/pg_hba.conf /etc/postgresql/9.3/main/pg_hba.conf
+ADD source/postgresql.conf /etc/postgresql/9.3/main/postgresql.conf
 
 # Run the rest of the commands as the ``postgres`` user created by the ``postgres-9.3`` package when it was ``apt-get installed``
 USER postgres
 
+# add an openerp role, with create database
+RUN /etc/init.d/postgresql start && \
+    createuser -d openerp && \
+    psql -c 'CREATE EXTENSION "unaccent";'
+
 # Expose the PostgreSQL port (this is only so you can run backups,
 # not to be exposed to the outside world)
 EXPOSE 5432
+
+VOLUME ["/var/log/postgresql", "/var/lib/postgresql", "/etc/postgresql"]
 
 # Set the default command to run when starting the container
 CMD ["/usr/lib/postgresql/9.3/bin/postgres", "-D", "/var/lib/postgresql/9.3/main", "-c", "config_file=/etc/postgresql/9.3/main/postgresql.conf"]
