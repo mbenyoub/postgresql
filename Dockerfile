@@ -21,6 +21,8 @@ ADD source/postgresql.conf /etc/postgresql/9.3/main/postgresql.conf
 # Run the rest of the commands as the ``postgres`` user created by the ``postgres-9.3`` package when it was ``apt-get installed``
 USER postgres
 
+RUN chown postgres:postgres /var/lib/postgresql/9.3/main/base
+
 # add an openerp role, with create database
 RUN /etc/init.d/postgresql start && \
     createuser -d openerp && \
