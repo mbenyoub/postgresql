@@ -1,0 +1,37 @@
+#!/bin/bash
+#
+# This script is designed to be run inside the container
+#
+
+# fail hard and fast even on pipelines
+set -eo pipefail
+
+# initialize database if one doesn't already exist
+# for example, in the case of a data container
+if [[ ! -d /var/lib/postgresql/9.3/main ]]; then
+	echo "database: existing data directory not found. Initialising postgres..."
+	chown -R postgres:postgres /var/lib/postgresql
+	sudo -u postgres /usr/lib/postgresql/9.3/bin/initdb -D /var/lib/postgresql/9.3/main -E UTF8 -U pg
+fi
+
+# run the service in the background
+echo "database: starting postgres..."
+sudo -i -u postgres /usr/lib/postgresql/9.3/bin/postgres \
+        -c config-file=/etc/postgresql/9.3/main/postgresql.conf &
+
+SERVICE_PID=$!
+
+# smart shutdown on SIGINT and SIGTERM
+function on_exit() {
+    kill -TERM $SERVICE_PID
+    wait $SERVICE_PID 2>/dev/null
+    exit 0
+}
+trap on_exit INT TERM
+
+# wait for the service to become available
+sleep 1 && while [[ -z $(netstat -lnt | awk "\$6 == \"LISTEN\" && \$4 ~ \".5432\" && \$1 ~ \"tcp.?\"") ]] ; do sleep 1; done
+
+echo "database: postgres is running..."
+
+wait
