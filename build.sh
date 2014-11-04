@@ -1,2 +1,2 @@
 #!/bin/bash
-docker build -t xcgd/postgresql ./
+docker build --rm -t xcgd/postgresql .
