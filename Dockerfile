@@ -13,7 +13,7 @@ RUN echo "deb http://apt.postgresql.org/pub/repos/apt/ trusty-pgdg main" > /etc/
 RUN locale-gen en_US.UTF-8 && update-locale
 RUN echo 'LANG="en_US.UTF-8"' > /etc/default/locale
 
-RUN apt-get update && apt-get -yq install postgresql-9.3 postgresql-client-9.3 postgresql-contrib-9.3
+RUN apt-get update && apt-get -yq install postgresql-9.3 postgresql-contrib-9.3
 
 RUN chown postgres:postgres /var/lib/postgresql/9.3/main/base
 # stop and clear the database as it is init or mounted on container runtime
