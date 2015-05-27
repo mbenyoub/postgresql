@@ -4,7 +4,7 @@ A dockerfile for PostgreSQL
 PostgreSQL version
 ============
 
-This docker builds with version 9.3.5 over a custom ubuntu-debootstrap:trusty image.
+This docker builds with version 9.4.2 over a custom ubuntu-debootstrap:trusty image.
 
 Instructions
 =============
@@ -12,9 +12,9 @@ Instructions
 Start PostgreSQL
 ----------------
 
-Run your docker, assuming you named your postgresql docker pg93 as we did above:
+Run your docker, assuming you named your postgresql docker pg94 as we did above:
 
-    $ docker run --rm --name="pg93" xcgd/postgresql
+    $ docker run --rm --name="pg94" xcgd/postgresql
 
 Persistance
 -----------
