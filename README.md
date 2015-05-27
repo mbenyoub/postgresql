@@ -6,6 +6,8 @@ PostgreSQL version
 
 This docker builds with version 9.3.5 over a custom ubuntu-debootstrap:trusty image.
 
+!!!NEW!!! version 9.4.2 is available in tag `xcgd/postgresql:9.4`
+
 Instructions
 =============
 
@@ -15,6 +17,9 @@ Start PostgreSQL
 Run your docker, assuming you named your postgresql docker pg93 as we did above:
 
     $ docker run --rm --name="pg93" xcgd/postgresql
+
+To run version 9.4
+    $ docker run --rm --name="pg94" xcgd/postgresql:9.4
 
 Persistance
 -----------
