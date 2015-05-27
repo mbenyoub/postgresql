@@ -6,7 +6,7 @@ MAINTAINER florent.aide@xcg-consulting.fr
 RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys B97B0AFCAA1A47F044F244A07FCC7D46ACCC4CF8
 
 # Add PostgreSQL's repository. It contains the most recent stable release
-#     of PostgreSQL, ``9.3``.
+#     of PostgreSQL, ``9.4``.
 RUN echo "deb http://apt.postgresql.org/pub/repos/apt/ trusty-pgdg main" > /etc/apt/sources.list.d/pgdg.list
 
 # Update the Ubuntu and PostgreSQL repository indexes
@@ -18,7 +18,7 @@ RUN apt-get update && apt-get -yq install postgresql-9.4 postgresql-contrib-9.4
 RUN chown postgres:postgres /var/lib/postgresql/9.4/main/base
 # stop and clear the database as it is init or mounted on container runtime
 RUN /etc/init.d/postgresql stop && \
-    rm -rf /var/lib/postgresql/9.3
+    rm -rf /var/lib/postgresql/9.4
 
 # Execution environment
 
