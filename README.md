@@ -18,7 +18,7 @@ Run your docker, assuming you named your postgresql docker pg93 as we did above:
 
 To run a specific version:
 
-    $ docker run --rm --name="pg95" xcgd/postgresql:9.5
+    $ docker run --rm --name="pg94" xcgd/postgresql:9.4
 
 ## Persistence
 
