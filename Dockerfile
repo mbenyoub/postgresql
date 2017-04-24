@@ -26,6 +26,10 @@ RUN /etc/init.d/postgresql stop && \
 # Execution environment
 
 ADD source/ /etc/postgresql/9.5/main/
+
+# Clean up APT when done.
+RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
 WORKDIR /app
 VOLUME ["/var/log/postgresql", "/var/lib/postgresql", "/etc/postgresql"]
 # Set the default entrypoint (non overridable) to run when starting the container
