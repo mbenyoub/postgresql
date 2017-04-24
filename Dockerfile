@@ -1,5 +1,8 @@
-FROM xcgd/ubuntu4base
-MAINTAINER florent.aide@xcg-consulting.fr 
+FROM phusion/baseimage:0.9.21
+MAINTAINER m.benyoub@itsolutions.dz
+
+# Use baseimage-docker's init system.
+CMD ["/sbin/my_init"]
 
 # Add the PostgreSQL PGP key to verify their Debian packages.
 # It should be the same key as https://www.postgresql.org/media/keys/ACCC4CF8.asc 
