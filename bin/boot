@@ -11,12 +11,12 @@ set -eo pipefail
 if [[ ! -d /var/lib/postgresql/9.5/main ]]; then
 	echo "database: existing data directory not found. Initialising postgres..."
 	chown -R postgres:postgres /var/lib/postgresql
-	sudo -u postgres /usr/lib/postgresql/9.5/bin/initdb -D /var/lib/postgresql/9.5/main -E UTF8 -U pg
+	exec /sbin/setuser postgres /usr/lib/postgresql/9.5/bin/initdb -D /var/lib/postgresql/9.5/main -E UTF8 -U pg
 fi
 
 # run the service in the background
 echo "database: starting postgres..."
-sudo -i -u postgres /usr/lib/postgresql/9.5/bin/postgres \
+exec /sbin/setuser postgres /usr/lib/postgresql/9.5/bin/postgres \
         -c config-file=/etc/postgresql/9.5/main/postgresql.conf &
 
 SERVICE_PID=$!
