@@ -1,4 +1,4 @@
-FROM phusion/baseimage:0.9.21
+FROM itsalgeria/baseits
 MAINTAINER m.benyoub@itsolutions.dz
 
 # Use baseimage-docker's init system.
