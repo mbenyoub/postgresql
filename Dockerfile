@@ -16,7 +16,9 @@ RUN echo "deb http://apt.postgresql.org/pub/repos/apt/ trusty-pgdg main" > /etc/
 RUN locale-gen en_US.UTF-8 && update-locale
 RUN echo 'LANG="en_US.UTF-8"' > /etc/default/locale
 
-RUN apt-get update && apt-get -yq install postgresql-9.5 postgresql-contrib-9.5
+RUN apt-get update && apt-get -yq install postgresql-9.5 postgresql-contrib-9.5 \
+        postgresql-9.5-postgis-2.3 postgresql-9.5-postgis-2.3-scripts \
+        postgresql-9.5-pgrouting
 
 RUN chown postgres:postgres /var/lib/postgresql/9.5/main/base
 # stop and clear the database as it is init or mounted on container runtime
@@ -26,7 +28,7 @@ RUN /etc/init.d/postgresql stop && \
 # Execution environment
 
 ADD source/ /etc/postgresql/9.5/main/
-
+  
 # Clean up APT when done.
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
